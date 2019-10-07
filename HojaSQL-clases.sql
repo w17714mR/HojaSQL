@@ -345,3 +345,7 @@ ORDER BY
     1,
     APATERNO,
     AMATERNO;
+
+-- 8.2
+
+SELECT * FROM ALUMNOS;
