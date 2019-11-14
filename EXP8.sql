@@ -21,19 +21,34 @@ GROUP BY
     NOMBRE
 HAVING
     COUNT(MED_RUT) < (
-        SELECT
-            MAX(COUNT(MED_RUT))
-        FROM
+      SELECT
+         MAX(TOTAL)
+      FROM (
+         SELECT
+            COUNT(*) AS TOTAL
+         FROM
             ATENCION
-        WHERE
-            EXTRACT(YEAR FROM FECHA_ATENCION) = 2017
-        GROUP BY
-            MED_RUT)
+         WHERE
+            EXTRACT(YEAR FROM FECHA_ATENCION) = (EXTRACT(YEAR FROM SYSDATE) - 1)
+         GROUP BY
+            MED_RUT))
     ORDER BY
         1,
         APATERNO,
         AMATERNO;
+SELECT
+   MAX(TOTAL)
+FROM (
+   SELECT
+      COUNT(*) AS TOTAL
+   FROM
+      ATENCION
+   WHERE
+      EXTRACT(YEAR FROM FECHA_ATENCION) = (EXTRACT(YEAR FROM SYSDATE) - 1)
+   GROUP BY
+      MED_RUT)
 
+         ;
 -- 8.2.1
 SELECT
     EXTRACT(MONTH FROM FECHA_ATENCION) || '/2017' AS "MES Y AÑO",
@@ -131,10 +146,7 @@ WHERE
             ESP_ID
         HAVING
             COUNT(ESP_ID) < 10)
-            
+
     ORDER BY
         NOMBRE ASC,
         APATERNO ASC;
-        
-        
-        
